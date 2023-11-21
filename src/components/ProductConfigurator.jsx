@@ -14,6 +14,21 @@ export default function ProductConfigurator() {
 
   const handleChangeOptions = (option) => {
     setSelectedOptions((prevOptions) => {
+      if (
+        option === "mobileConnector" ||
+        option === "wallConnector" ||
+        option === "topFreezer" ||
+        option === "bottomFreezer"
+      ) {
+        return {
+          ...prevOptions,
+          mobileConnector: option === "mobileConnector",
+          wallConnector: option === "wallConnector",
+          topFreezer: option === "topFreezer",
+          bottomFreezer: option === "bottomFreezer",
+        };
+      }
+
       return {
         ...prevOptions,
         [option]: !prevOptions[option],
@@ -79,7 +94,8 @@ export default function ProductConfigurator() {
           </div>
           <div className="mt-5 border-t border-blue-950 py-5">
             <h1 className="text-3xl font-bold mb-5">Product Options</h1>
-            <div className="flex flex-wrap justify-center gap-2 uppercase">
+            <div className="flex flex-wrap justify-center px-10 gap-2 uppercase">
+              {selectedProduct ? "" : "Select a Product"}
               <ProductOptions
                 optionName={
                   selectedProduct
@@ -87,6 +103,12 @@ export default function ProductConfigurator() {
                     : {}
                 }
                 optionId={selectedProduct}
+                radioOptions={[
+                  "wallConnector",
+                  "mobileConnector",
+                  "topFreezer",
+                  "bottomFreezer",
+                ]}
                 handleChangeOptions={handleChangeOptions}
               />
             </div>

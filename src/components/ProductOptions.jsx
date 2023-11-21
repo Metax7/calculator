@@ -1,4 +1,8 @@
-export default function ProductOptions({ optionName, handleChangeOptions }) {
+export default function ProductOptions({
+  optionName,
+  radioOptions,
+  handleChangeOptions,
+}) {
   return (
     <>
       {Object.keys(optionName).map((option) => (
@@ -9,7 +13,8 @@ export default function ProductOptions({ optionName, handleChangeOptions }) {
         >
           <input
             id={option}
-            type="checkbox"
+            type={radioOptions.includes(option) ? "radio" : "checkbox"}
+            name={radioOptions.includes(option) ? "radioGroup" : undefined}
             onChange={() => handleChangeOptions(option)}
             className="mr-1"
           />
