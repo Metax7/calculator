@@ -22,7 +22,7 @@ export const products = [
     },
   },
   {
-    name: "samsung",
+    name: "samsung fridge",
     price: 20000,
     options: {
       fourDoor: 3000,
@@ -33,14 +33,14 @@ export const products = [
     },
   },
   {
-    name: "lg",
+    name: "lg fridge",
     price: 10000,
     options: {
-      fourDoor: 3000,
+      fourDoor: 4000,
       threeDoor: 2000,
-      topFreezer: 5000,
+      topFreezer: 6000,
       bottomFreezer: 2000,
-      foodShowCase: 6000,
+      foodShowCase: 7000,
     },
   },
 ];

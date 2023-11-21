@@ -1,8 +1,10 @@
 "use client";
 
+import { products } from "@/data/ProductsData";
 import { useState } from "react";
+import ProductOptions from "./ProductOptions";
 
-export default function ProductConfigurator({ products, productType }) {
+export default function ProductConfigurator() {
   const [selectedProduct, setSelectedProduct] = useState();
   const [selectedOptions, setSelectedOptions] = useState({});
 
@@ -12,14 +14,6 @@ export default function ProductConfigurator({ products, productType }) {
 
   const handleChangeOptions = (option) => {
     setSelectedOptions((prevOptions) => {
-      if (option === "mobileConnector" || option === "wallConnector") {
-        return {
-          ...prevOptions,
-          mobileConnector: option === "mobileConnector",
-          wallConnector: option === "wallConnector",
-        };
-      }
-
       return {
         ...prevOptions,
         [option]: !prevOptions[option],
@@ -29,7 +23,7 @@ export default function ProductConfigurator({ products, productType }) {
 
   const calculateTotalPrice = () => {
     const selectedProductData = products.find(
-      (p) => p.name === selectedProduct
+      (product) => product.name === selectedProduct
     );
 
     let totalPrice = selectedProductData ? selectedProductData.price : 0;
@@ -47,7 +41,7 @@ export default function ProductConfigurator({ products, productType }) {
   };
 
   const productCost = selectedProduct
-    ? products.find((p) => p.name === selectedProduct).price
+    ? products.find((product) => product.name === selectedProduct).price
     : 0;
 
   return (
@@ -64,96 +58,37 @@ export default function ProductConfigurator({ products, productType }) {
           <span>Full Price: ${calculateTotalPrice()}</span>
         </div>
         <div className="text-center py-5">
-          <h1 className="text-3xl font-bold">{productType}</h1>
-          <div className="flex justify-evenly">
-            <label htmlFor="samsung" className="border rounded-md py-2 px-4">
-              <input
-                type="radio"
-                id="samsung"
-                name="product"
-                onChange={() => handleChangeProduct("samsung")}
-                className="mr-1"
-              />
-              Samsung
-            </label>
-            <label htmlFor="lg" className="border rounded-md py-2 px-4">
-              <input
-                type="radio"
-                id="lg"
-                name="product"
-                onChange={() => handleChangeProduct("lg")}
-                className="mr-1"
-              />
-              LG
-            </label>
+          <h1 className="text-3xl font-bold">Products</h1>
+          <div className="grid grid-cols-2 px-10 gap-5 uppercase mt-2">
+            {products.map((product) => (
+              <label
+                key={product.name}
+                htmlFor={product.name}
+                className="border rounded-md py-2 px-4"
+              >
+                <input
+                  type="radio"
+                  id={product.name}
+                  name="product"
+                  onChange={() => handleChangeProduct(product.name)}
+                  className="mr-1"
+                />
+                {product.name}
+              </label>
+            ))}
           </div>
           <div className="mt-5 border-t border-blue-950 py-5">
             <h1 className="text-3xl font-bold mb-5">Product Options</h1>
-            <div>
-              <div className="flex justify-evenly">
-                <label htmlFor="hitch" className="border rounded-md py-2 px-4">
-                  <input
-                    id="hitch"
-                    type="checkbox"
-                    onChange={() => handleChangeOptions("towHitch")}
-                    disabled={!selectedProduct}
-                    className="mr-1"
-                  />
-                  Tow Hitch
-                </label>
-                <label
-                  htmlFor="autopilot"
-                  className="border rounded-md py-2 px-4"
-                >
-                  <input
-                    type="checkbox"
-                    id="autopilot"
-                    onChange={() => handleChangeOptions("autopilot")}
-                    disabled={!selectedProduct}
-                    className="mr-1"
-                  />
-                  Autopilot
-                </label>
-                <label htmlFor="self" className="border rounded-md py-2 px-4">
-                  <input
-                    id="self"
-                    type="checkbox"
-                    onChange={() => handleChangeOptions("selfDriving")}
-                    disabled={!selectedProduct}
-                    className="mr-1"
-                  />
-                  Self Driving
-                </label>
-              </div>
-              <div className="mt-4">
-                <div className="flex justify-evenly">
-                  <label htmlFor="wall" className="border rounded-md py-2 px-4">
-                    <input
-                      type="radio"
-                      id="wall"
-                      name="charging"
-                      onChange={() => handleChangeOptions("wallConnector")}
-                      disabled={!selectedProduct}
-                      className="mr-1"
-                    />
-                    Wall Connector
-                  </label>
-                  <label
-                    htmlFor="mobile"
-                    className="border rounded-md py-2 px-4"
-                  >
-                    <input
-                      id="mobile"
-                      type="radio"
-                      name="charging"
-                      onChange={() => handleChangeOptions("mobileConnector")}
-                      disabled={!selectedProduct}
-                      className="mr-1"
-                    />
-                    Mobile Connector
-                  </label>
-                </div>
-              </div>
+            <div className="flex flex-wrap justify-center gap-2 uppercase">
+              <ProductOptions
+                optionName={
+                  selectedProduct
+                    ? products.find((p) => p.name === selectedProduct).options
+                    : {}
+                }
+                optionId={selectedProduct}
+                handleChangeOptions={handleChangeOptions}
+              />
             </div>
           </div>
         </div>
